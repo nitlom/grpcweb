@@ -9,6 +9,7 @@ import (
 	"path/filepath"
 
 	"github.com/nitlom/webserver/pkg/config"
+	"github.com/nitlom/webserver/pkg/models"
 )
 
 var functions = template.FuncMap{}
@@ -19,11 +20,21 @@ func NewTemplates(a *config.AppConfig) {
 	app = a
 }
 
-func RenderTemplate(w http.ResponseWriter, tmpl string) {
+func RenderTemplate(w http.ResponseWriter, tmpl string, td *models.TemplateData) {
+
+	var tc map[string]*template.Template
+	var err error
+
+	if app.UseCache {
+		tc = app.TemplateCache
+	} else {
+		tc, err = CreateTemplateCache()
+		if err != nil {
+			log.Println("Could not create templateCache...")
+		}
+	}
 
 	// Get the templateCache from the Config
-
-	tc := app.TemplateCache
 
 	t, ok := tc[tmpl]
 	if !ok {
@@ -32,7 +43,7 @@ func RenderTemplate(w http.ResponseWriter, tmpl string) {
 
 	buffer := new(bytes.Buffer)
 
-	err := t.Execute(buffer, nil)
+	err = t.Execute(buffer, nil)
 	_, err = buffer.WriteTo(w)
 
 	if err != nil {

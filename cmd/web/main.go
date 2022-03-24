@@ -35,6 +35,11 @@ func main() {
 	httpAddress = ":8080"
 
 	app.TemplateCache = tc
+	app.UseCache = false
+
+	repo := handlers.NewRepo(&app)
+	handlers.NewHandlers(repo)
+
 	render.NewTemplates(&app)
 
 	serveHttp()
@@ -42,8 +47,8 @@ func main() {
 
 func serveHttp() {
 	r := http.NewServeMux()
-	r.HandleFunc("/", handlers.Home)
-	r.HandleFunc("/about", handlers.About)
+	r.HandleFunc("/", handlers.Repo.Home)
+	r.HandleFunc("/about", handlers.Repo.About)
 
 	httpServer := &http.Server{
 		Handler: r,
