@@ -44,6 +44,6 @@ func main() {
 		Addr:    portNumber,
 		Handler: Routes(&app),
 	}
-	srv.ListenAndServe()
+	log.Fatal(srv.ListenAndServe())
 
 }
