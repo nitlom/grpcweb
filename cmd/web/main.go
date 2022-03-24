@@ -1,16 +1,14 @@
 package main
 
 import (
-	"context"
-	"fmt"
-	"net"
 	"net/http"
+	"strings"
 
 	log "github.com/sirupsen/logrus"
 
-	"github.com/oz1tmm/webserver/pkg/config"
-	"github.com/oz1tmm/webserver/pkg/handlers"
-	"github.com/oz1tmm/webserver/pkg/render"
+	"github.com/nitlom/webserver/pkg/config"
+	"github.com/nitlom/webserver/pkg/handlers"
+	"github.com/nitlom/webserver/pkg/render"
 )
 
 var (
@@ -20,15 +18,12 @@ var (
 const portNumber = ":8080"
 
 func main() {
-	_, cancel := context.WithCancel(context.Background())
-	defer cancel()
 
-	serviceAddress := ":7000"
-	_, err := net.Listen("tcp", serviceAddress)
-	if err != nil {
-		log.Fatalf("Failed to listen: %v", err)
+	var listenAddress = ""
+	if strings.HasPrefix(portNumber, ":") {
+		listenAddress = "*" + portNumber
 	}
-	log.Println("Listening at:", serviceAddress)
+	log.Println("Listening at", listenAddress)
 
 	var app config.AppConfig
 
@@ -55,7 +50,6 @@ func serveHttp() {
 		Addr:    portNumber,
 	}
 
-	log.Println("And here...")
-	fmt.Printf("Starting web-server on %s", portNumber)
+	//log.Printf("Starting web-server on %s", portNumber)
 	log.Fatal(httpServer.ListenAndServe())
 }

@@ -3,7 +3,7 @@ package handlers
 import (
 	"net/http"
 
-	"github.com/oz1tmm/webserver/pkg/render"
+	"github.com/nitlom/webserver/pkg/render"
 )
 
 // Home is the handler for the Home page

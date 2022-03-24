@@ -8,7 +8,7 @@ import (
 	"net/http"
 	"path/filepath"
 
-	"github.com/oz1tmm/webserver/pkg/config"
+	"github.com/nitlom/webserver/pkg/config"
 )
 
 var functions = template.FuncMap{}

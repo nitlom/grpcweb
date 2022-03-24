@@ -1,4 +1,4 @@
-module github.com/oz1tmm/webserver
+module github.com/nitlom/webserver
 
 go 1.18
 
