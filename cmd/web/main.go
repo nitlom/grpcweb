@@ -32,8 +32,6 @@ func main() {
 		log.Fatal(err)
 	}
 
-	httpAddress = ":8080"
-
 	app.TemplateCache = tc
 	app.UseCache = false
 
@@ -42,19 +40,10 @@ func main() {
 
 	render.NewTemplates(&app)
 
-	serveHttp()
-}
-
-func serveHttp() {
-	r := http.NewServeMux()
-	r.HandleFunc("/", handlers.Repo.Home)
-	r.HandleFunc("/about", handlers.Repo.About)
-
-	httpServer := &http.Server{
-		Handler: r,
+	srv := &http.Server{
 		Addr:    portNumber,
+		Handler: Routes(&app),
 	}
+	srv.ListenAndServe()
 
-	//log.Printf("Starting web-server on %s", portNumber)
-	log.Fatal(httpServer.ListenAndServe())
 }
