@@ -39,3 +39,7 @@ func (m *Repository) About(w http.ResponseWriter, r *http.Request) {
 		StringMap: StringMap,
 	})
 }
+
+func (m *Repository) Metrics(w http.ResponseWriter, r *http.Request) {
+	render.RenderTemplate(w, "metrics.page.tmpl", &models.TemplateData{})
+}

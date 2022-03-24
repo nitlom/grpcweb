@@ -34,7 +34,7 @@ func RenderTemplate(w http.ResponseWriter, tmpl string, td *models.TemplateData)
 	} else {
 		tc, err = CreateTemplateCache()
 		if err != nil {
-			log.Println("Could not create templateCache...")
+			log.Fatal("Could not create templateCache...")
 		}
 	}
 
